@@ -265,6 +265,8 @@ def payment():
         totalPrice = sum(row[2] for row in products)
         for row in products:
             execute_db("INSERT INTO Orders (userId, productId) VALUES (?, ?)", (userId, row[0]))
+            # 新增這一行，扣減庫存
+            execute_db("UPDATE products SET stock = stock - 1 WHERE productId = ?", (row[0],))
         execute_db("DELETE FROM kart WHERE userId = ?", (userId,))
     else:
         products = []
@@ -336,6 +338,31 @@ def user_orders():
         WHERE Orders.userId = ?
     """, (userId,))
     return render_template("user_orders.html", orders=orders)
+
+@app.route("/manageProducts")
+def manageProducts():
+    if not session.get('isAdmin'):
+        return redirect(url_for('root'))
+    data = get_all_products()
+    return render_template('manageProducts.html', data=data)
+
+@app.route("/updateProduct", methods=["POST"])
+def updateProduct():
+    if not session.get('isAdmin'):
+        return redirect(url_for('root'))
+    productId = request.form['productId']
+    price = float(request.form['price'])
+    stock = int(request.form['stock'])
+    try:
+        execute_db(
+            "UPDATE products SET price = ?, stock = ? WHERE productId = ?",
+            (price, stock, productId)
+        )
+        msg = "Updated successfully"
+    except Exception as e:
+        msg = "Error occurred"
+    print(msg)
+    return redirect(url_for('manageProducts'))
 
 def allowed_file(filename):
     return '.' in filename and \
