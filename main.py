@@ -2,6 +2,7 @@ from flask import *
 import sqlite3, hashlib, os
 from werkzeug.utils import secure_filename
 from db import query_db, execute_db, get_all_products, get_all_categories, get_items_by_category
+import requests
 
 app = Flask(__name__)
 app.secret_key = 'random string'
@@ -46,11 +47,18 @@ def addItem():
         description = request.form['description']
         stock = int(request.form['stock'])
         categoryId = int(request.form['category'])
-        image = request.files['image']
-        if image and allowed_file(image.filename):
-            filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        imagename = filename
+        # 支援 API 新增（image 欄位可能為空字串）
+        if 'image' in request.files and request.files['image']:
+            image = request.files['image']
+            if image and allowed_file(image.filename):
+                filename = secure_filename(image.filename)
+                image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                imagename = filename
+            else:
+                imagename = ''
+        else:
+            # 來自 API 或表單未上傳圖片
+            imagename = request.form.get('image', '')
         try:
             execute_db(
                 '''INSERT INTO products (name, price, description, image, stock, categoryId) VALUES (?, ?, ?, ?, ?, ?)''',
@@ -363,6 +371,22 @@ def updateProduct():
         msg = "Error occurred"
     print(msg)
     return redirect(url_for('manageProducts'))
+
+@app.route("/admin/search_books", methods=["GET", "POST"])
+def search_books():
+    if not session.get('isAdmin'):
+        return redirect(url_for('root'))
+    books = []
+    if request.method == "POST":
+        keyword = request.form['keyword']
+        resp = requests.get(f"https://openlibrary.org/search.json?q={keyword}&limit=10")
+        if resp.ok:
+            books = resp.json().get('docs', [])
+    return render_template(
+        "search_books.html",
+        books=books,
+        get_all_categories=get_all_categories
+    )
 
 def allowed_file(filename):
     return '.' in filename and \
