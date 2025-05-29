@@ -1,0 +1,40 @@
+<h2>OpenLibrary 書籍搜尋</h2>
+<form method="post">
+    <input type="text" name="keyword" placeholder="輸入書名或關鍵字" required>
+    <input type="submit" value="搜尋">
+</form>
+{% if books %}
+<table>
+    <tr>
+        <th>書名</th>
+        <th>作者</th>
+        <th>加入商品</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+        <form action="{{ url_for('addItem') }}" method="post">
+            <td>
+                <input type="hidden" name="name" value="{{ book.title }}">
+                {{ book.title }}
+            </td>
+            <td>
+                <input type="hidden" name="description"
+                    value="{{ book.author_name|join(', ') if book.author_name else '' }}">
+                {{ book.author_name|join(', ') if book.author_name else '' }}
+            </td>
+            <td>
+                <input type="number" name="price" value="100" min="0" required>
+                <input type="number" name="stock" value="10" min="0" required>
+                <select name="category">
+                    {% for c in get_all_categories() %}
+                    <option value="{{c[0]}}">{{c[1]}}</option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" name="image" value="">
+                <input type="submit" value="加入商品">
+            </td>
+        </form>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
