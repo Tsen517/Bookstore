@@ -39,6 +39,7 @@
 			<div class="dropdown-content">
 				{% if session.get('isAdmin') %}
 				<a href="{{ url_for('admin_orders') }}">orders</a>
+				<a href="{{ url_for('manageProducts') }}">product</a>
 				{% else %}
 				<a href="{{ url_for('user_orders') }}">Your orders</a>
 				{% endif %}
