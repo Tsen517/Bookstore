@@ -1,7 +1,7 @@
 from flask import *
 import sqlite3, hashlib, os
 from werkzeug.utils import secure_filename
-from db import query_db, execute_db, get_all_products, get_all_categories
+from db import query_db, execute_db, get_all_products, get_all_categories, get_items_by_category
 
 app = Flask(__name__)
 app.secret_key = 'random string'
@@ -29,7 +29,7 @@ def root():
     itemData = get_all_products()
     categoryData = get_all_categories()
     itemData = parse(itemData)
-    return render_template('home.html', itemData=itemData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryData=categoryData)
+    return render_template("home.html", itemData=itemData, categoryData=categoryData, show_category_btn=True, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
 
 @app.route("/add")
 def admin():
@@ -78,14 +78,22 @@ def removeItem():
     print(msg)
     return redirect(url_for('root'))
 
-@app.route("/displayCategory")
-def displayCategory():
+@app.route('/displayCategory')
+def display_category():
+    categoryId = request.args.get('categoryId')
+    itemData = get_items_by_category(categoryId)
+    categoryData = get_all_categories()
     loggedIn, firstName, noOfItems = getLoginDetails()
-    categoryId = request.args.get("categoryId")
-    data = query_db("SELECT products.productId, products.name, products.price, products.image, categories.name FROM products, categories WHERE products.categoryId = categories.categoryId AND categories.categoryId = ?", (categoryId,))
-    categoryName = data[0][4] if data else ""
-    data = parse(data)
-    return render_template('displayCategory.html', data=data, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryName=categoryName)
+    itemData = parse(itemData)
+    return render_template(
+        'home.html',
+        itemData=itemData,
+        categoryData=categoryData,
+        show_category_btn=True,
+        loggedIn=loggedIn,
+        firstName=firstName,
+        noOfItems=noOfItems
+    )
 
 @app.route("/account/profile")
 def profileHome():

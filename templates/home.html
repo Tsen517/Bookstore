@@ -17,6 +17,18 @@
 			<input id="searchButton" type="submit" value="Search">
 		</form>
 
+		<!-- Category 下拉式選單 -->
+		{% if show_category_btn %}
+		<div class="dropdown">
+			<button class="dropbtn">Category</button>
+			<div class="dropdown-content">
+				{% for row in categoryData %}
+				<a href="/displayCategory?categoryId={{row[0]}}">{{row[1]}}</a>
+				{% endfor %}
+			</div>
+		</div>
+		{% endif %}
+
 		{% if not loggedIn %}
 		<div id="signInButton">
 			<a class="link" href="{{ url_for('loginForm') }}">Sign In</a>
@@ -25,7 +37,11 @@
 		<div class="dropdown">
 			<button class="dropbtn">Hello, <br>{{firstName}}</button>
 			<div class="dropdown-content">
+				{% if session.get('isAdmin') %}
+				<a href="{{ url_for('admin_orders') }}">orders</a>
+				{% else %}
 				<a href="{{ url_for('user_orders') }}">Your orders</a>
+				{% endif %}
 				<a href="/account/profile">Your profile</a>
 				<hr>
 				<a href="/logout">Sign Out</a>
@@ -40,14 +56,7 @@
 		</div>
 	</div>
 	<div class="display">
-		<div class="displayCategory">
-			<h2>Shop by Category: </h2>
-			<ul>
-				{% for row in categoryData %}
-				<li><a href="/displayCategory?categoryId={{row[0]}}">{{row[1]}}</a></li>
-				{% endfor %}
-			</ul>
-		</div>
+		<!-- 已移除原本的 Shop by Category 區塊 -->
 		<div>
 			<h2>Items</h2>
 			{% for data in itemData%}
