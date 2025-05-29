@@ -1,0 +1,15 @@
+<h2>我的訂單</h2>
+<table>
+    <tr>
+        <th>訂單編號</th>
+        <th>商品名稱</th>
+        <th>商品ID</th>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order[0] }}</td>
+        <td>{{ order[1] }}</td>
+        <td>{{ order[2] }}</td>
+    </tr>
+    {% endfor %}
+</table>

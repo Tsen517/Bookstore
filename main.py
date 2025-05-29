@@ -299,6 +299,36 @@ def viewProfile():
     profileData = query_db("SELECT userId, email, firstName, lastName, address1, address2, zipcode, city, state, country, phone FROM users WHERE email = ?", (session['email'],), one=True)
     return render_template("viewProfile.html", profileData=profileData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
 
+@app.route("/admin/orders")
+def admin_orders():
+    # 僅管理員可檢視所有訂單
+    if not session.get('isAdmin'):
+        return redirect(url_for('root'))
+    orders = query_db("""
+        SELECT Orders.orderId, users.email, products.name, Orders.productId
+        FROM Orders
+        JOIN users ON Orders.userId = users.userId
+        JOIN products ON Orders.productId = products.productId
+    """)
+    return render_template("admin_orders.html", orders=orders)
+
+@app.route("/orders")
+def user_orders():
+    # 僅登入用戶可檢視自己的訂單
+    if 'email' not in session:
+        return redirect(url_for('loginForm'))
+    user = query_db("SELECT userId FROM users WHERE email = ?", (session['email'],), one=True)
+    if not user:
+        return redirect(url_for('root'))
+    userId = user[0]
+    orders = query_db("""
+        SELECT Orders.orderId, products.name, Orders.productId
+        FROM Orders
+        JOIN products ON Orders.productId = products.productId
+        WHERE Orders.userId = ?
+    """, (userId,))
+    return render_template("user_orders.html", orders=orders)
+
 def allowed_file(filename):
     return '.' in filename and \
             filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
