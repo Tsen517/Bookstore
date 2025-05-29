@@ -21,3 +21,6 @@ def get_all_products():
 def get_all_categories():
     return query_db('SELECT categoryId, name FROM categories')
 
+def get_items_by_category(categoryId):
+    return query_db("SELECT * FROM products WHERE categoryId = ?", (categoryId,))
+
