@@ -19,7 +19,7 @@ conn.execute('''CREATE TABLE IF NOT EXISTS users
 		phone TEXT
 		)''')
 
-conn.execute('''CREATE TABLE products
+conn.execute('''CREATE TABLE IF NOT EXISTS products
 		(productId INTEGER PRIMARY KEY,
 		name TEXT,
 		price REAL,
@@ -30,20 +30,21 @@ conn.execute('''CREATE TABLE products
 		FOREIGN KEY(categoryId) REFERENCES categories(categoryId)
 		)''')
 
-conn.execute('''CREATE TABLE kart
+conn.execute('''CREATE TABLE IF NOT EXISTS kart
 		(userId INTEGER,
 		productId INTEGER,
 		FOREIGN KEY(userId) REFERENCES users(userId),
 		FOREIGN KEY(productId) REFERENCES products(productId)
 		)''')
 
-conn.execute('''CREATE TABLE categories
+conn.execute('''CREATE TABLE IF NOT EXISTS categories
 		(categoryId INTEGER PRIMARY KEY,
 		name TEXT
 		)''')
 
-conn.execute('''CREATE TABLE Order
-		(userId INTEGER,
+conn.execute('''CREATE TABLE IF NOT EXISTS Orders
+		(orderId INTEGER PRIMARY KEY AUTOINCREMENT,
+		userId INTEGER,
 		productId INTEGER,
 		FOREIGN KEY(userId) REFERENCES users(userId),
 		FOREIGN KEY(productId) REFERENCES products(productId)

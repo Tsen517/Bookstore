@@ -1,8 +1,15 @@
 import requests
 import sqlite3
 
-def fetch_books(limit=10):
-    url = f"https://openlibrary.org/search.json?q=self+growth&limit=30"  # 多抓一些以便篩選
+CATEGORIES = [
+    ("Novel", 1),
+    ("programming", 2),
+    ("psychology", 3),
+    ("self growth", 4)
+]
+
+def fetch_books(keyword, limit=30):
+    url = f"https://openlibrary.org/search.json?q={keyword.replace(' ', '+')}&limit={limit}"
     resp = requests.get(url)
     resp.raise_for_status()
     return resp.json()["docs"]
@@ -22,7 +29,7 @@ def get_description(work_key):
         pass
     return "無簡介"
 
-def insert_books(books, need_count=10):
+def insert_books(books, categoryId, need_count=10):
     conn = sqlite3.connect("database.db")
     cur = conn.cursor()
     inserted = 0
@@ -37,7 +44,6 @@ def insert_books(books, need_count=10):
         stock = 10
         cover_id = book.get("cover_i")
         image = f"https://covers.openlibrary.org/b/id/{cover_id}-M.jpg" if cover_id else ""
-        categoryId = 4  
         name = f"{title} - {author}"
 
         # 判斷任一必要欄位為空就跳過
@@ -51,8 +57,9 @@ def insert_books(books, need_count=10):
         inserted += 1
     conn.commit()
     conn.close()
-    print(f"已寫入 {inserted} 筆自我成長相關書籍到 products 資料表。")
+    print(f"已寫入 {inserted} 筆 {categoryId} 類別書籍到 products 資料表。")
 
 if __name__ == "__main__":
-    books = fetch_books()
-    insert_books(books, need_count=10)
+    for keyword, categoryId in CATEGORIES:
+        books = fetch_books(keyword)
+        insert_books(books, categoryId, need_count=10)

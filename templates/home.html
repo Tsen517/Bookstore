@@ -12,20 +12,20 @@
 		<a href="/">
 			<img id="logo" src={{ url_for('static', filename='images/logo.png' ) }} />
 		</a>
-		<form>
+		<form action="/" method="get">
 			<input id="searchBox" type="text" name="searchQuery">
 			<input id="searchButton" type="submit" value="Search">
 		</form>
 
 		{% if not loggedIn %}
 		<div id="signInButton">
-			<a class="link" href="/loginForm">Sign In</a>
+			<a class="link" href="{{ url_for('loginForm') }}">Sign In</a>
 		</div>
 		{% else %}
 		<div class="dropdown">
 			<button class="dropbtn">Hello, <br>{{firstName}}</button>
 			<div class="dropdown-content">
-				<a href="/account/orders">Your orders</a>
+				<a href="{{ url_for('user_orders') }}">Your orders</a>
 				<a href="/account/profile">Your profile</a>
 				<hr>
 				<a href="/logout">Sign Out</a>
