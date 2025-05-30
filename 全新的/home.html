@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Welcome</title>
+<link rel="stylesheet" href={{ url_for('static', filename='css/home.css') }} />
+<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+<div id="title">
+	<a href="/">
+		<i class="bi bi-book-fill fs-1 text-primary" id="logo"></i>
+	</a>
+
+	{% if not loggedIn %}
+	<div id="signInButton">
+		<a class="link" href="/loginForm">會員登入</a>
+	</div>
+	{% else %}
+	<div class="dropdown">
+		<button class="dropbtn">會員中心<br>{{firstName}}</button>
+		<div class="dropdown-content">
+			<a href="/account/orders">會員訂單</a>
+			<a href="/account/profile">會員資料</a>
+			<hr>
+			<a href="/logout">登出</a>
+		</div>
+	</div>
+	{% endif %}
+	<div id="kart">
+		<a class="link" href="/cart">
+			<i class="bi bi-cart-fill" id="cartIcon"></i>
+			CART {{noOfItems}}
+		</a>
+	</div>
+	<form>
+		<input id="searchBox" type="text" name="searchQuery">
+		<input id="searchButton" type="submit" value="Search">
+	</form>
+	<button id="aboutwe" type="button" onclick="location.href='/aboutwe'">關於我們</button>
+</div>
+<div class="displayCategory">
+    <nav class="category-navbar">
+        <ul class="category-nav">
+            <li class="nav-title">商品種類：</li>
+            {% for row in categoryData %}
+            <li><a href="/displayCategory?categoryId={{row[0]}}">{{ row[1] }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>
+<div class="display">	
+	<div>
+		<h1>推薦好物</h1>
+		{% for data in itemData%}
+		<table>
+			<tr id="productName">
+				{% for row in data %}
+				<td>
+					{{row[1]}}
+				</td>
+				{% endfor %}
+			</tr>
+			<tr id="productImage">
+				{% for row in data %}
+				<td>
+					<a href="/productDescription?productId={{row[0]}}">
+						<img src={{ url_for('static', filename='uploads/' + row[4]) }} id="itemImage" />
+					</a>
+				</td>
+				{% endfor %}
+			</tr>
+			<tr id="productPrice">
+				{% for row in data %}
+				<td>
+					${{row[2]}}
+				</td>
+				{% endfor %}
+			</tr>
+		</table>
+		{% endfor %}
+	</div>
+</div>
+<footer id="footer">
+    <p>&copy; 最終解釋權與所有權歸製作者所有</p>
+</footer>
+</body>
+</html>

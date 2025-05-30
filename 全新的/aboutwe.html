@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Hello</title>
+<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
+<link rel="stylesheet" href={{ url_for('static', filename='css/aboutwe.css') }} />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+<div id="title">
+	<a href="/">
+		<i class="bi bi-book-fill fs-1 text-primary" id="logo"></i>
+	</a>
+
+	{% if not loggedIn %}
+	<div id="signInButton">
+		<a class="link" href="/loginForm">會員登入</a>
+	</div>
+	{% else %}
+	<div class="dropdown">
+		<button class="dropbtn">會員中心 <br>{{firstName}}</button>
+		<div class="dropdown-content">
+			<a href="/account/orders">會員訂單</a>
+			<a href="/account/profile">會員資料</a>
+			<hr>
+			<a href="/logout">登出</a>
+		</div>
+	</div>
+	{% endif %}
+	<div id="kart">
+		<a class="link" href="/cart">
+			<i class="bi bi-cart-fill" id="cartIcon"></i>
+			CART {{noOfItems}}
+		</a>
+	</div>
+	<form>
+		<input id="searchBox" type="text" name="searchQuery">
+		<input id="searchButton" type="submit" value="Search">
+	</form>
+	<button id="aboutwe" type="button" onclick="location.href='aboutwe.html'">關於我們</button>
+</div>
+<div class="displayCategory">
+    <nav class="category-navbar">
+        <ul class="category-nav">
+            <li class="nav-title">商品種類：</li>
+            {% for row in categoryData %}
+            <li><a href="/displayCategory?categoryId={{row[0]}}">{{ row[1] }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>
+
+<div class="intro-container">
+    <h1><b>關於我們</b></h1>
+    <hr>
+	<div class="card card-hover">
+    	<img class="img-size" alt="">
+    	<div class="card-body">
+        	<h4><a href="#" class="card-title">潘若薇</a></h4>
+        	<p class="card-text">班級:資工2B</p>
+        	<p class="card-text">學號:s1121153</p>
+    	</div>
+	</div>
+	<div class="card card-hover">
+    	<img class="img-size" alt="">
+    	<div class="card-body">
+        	<h4><a href="#" class="card-title">劉映岑</a></h4>
+        	<p class="card-text">班級:資工2B</p>
+        	<p class="card-text">學號:s1121151</p>
+    	</div>
+	</div>
+</div>
+
+<footer id="footer">
+    <p>&copy; 最終解釋權與所有權歸製作者所有</p>
+</footer>
+</body>    
+</html>
