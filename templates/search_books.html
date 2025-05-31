@@ -1,3 +1,5 @@
+{% extends "admin.html" %}
+{% block content %}
 <h2>OpenLibrary 書籍搜尋</h2>
 <form method="post">
     <input type="text" name="keyword" placeholder="輸入書名或關鍵字" required>
@@ -7,8 +9,12 @@
 <table>
     <tr>
         <th>書名</th>
-        <th>作者</th>
-        <th>加入商品</th>
+        <th>價格</th>
+        <th>描述</th>
+        <th>圖片</th>
+        <th>類別</th>
+        <th>庫存</th>
+        <th>操作</th>
     </tr>
     {% for book in books %}
     <tr>
@@ -18,19 +24,35 @@
                 {{ book.title }}
             </td>
             <td>
-                <input type="hidden" name="description"
-                    value="{{ book.author_name|join(', ') if book.author_name else '' }}">
-                {{ book.author_name|join(', ') if book.author_name else '' }}
+                <input type="hidden" name="price" value="{{ book.price }}">
+                {{ book.price }}
             </td>
             <td>
-                <input type="number" name="price" value="100" min="0" required>
-                <input type="number" name="stock" value="10" min="0" required>
-                <select name="category">
+                <input type="hidden" name="description" value="{{ book.description }}">
+                {{ book.description[:30] if book.description else '無簡介' }}...
+            </td>
+            <td>
+                <input type="hidden" name="image" value="{{ book.image }}">
+                {% if book.image %}
+                <img src="{{ book.image }}" alt="cover" style="height:60px;">
+                {% else %}
+                無圖片
+                {% endif %}
+            </td>
+            <td>
+                <select name="category" class="category-select" onchange="showNewCategoryInput(this)">
                     {% for c in get_all_categories() %}
                     <option value="{{c[0]}}">{{c[1]}}</option>
                     {% endfor %}
+                    <option value="add_new">＋ add category</option>
                 </select>
-                <input type="hidden" name="image" value="">
+                <input type="text" name="new_category" class="new-category-input" style="display:none;"
+                    placeholder="請輸入新類別">
+            </td>
+            <td>
+                <input type="number" name="stock" value="10" min="0" required>
+            </td>
+            <td>
                 <input type="submit" value="加入商品">
             </td>
         </form>
@@ -38,3 +60,5 @@
     {% endfor %}
 </table>
 {% endif %}
+<script src="{{ url_for('static', filename='js/AddCategory.js') }}"></script>
+{% endblock %}

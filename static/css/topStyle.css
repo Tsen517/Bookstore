@@ -70,7 +70,7 @@
 }
 
 .dropdown:hover .dropbtn {
-	background-color: gray;
+	background-color: #e0e0e0; /* 修改此行：從 gray 改為 #e0e0e0 */
 }
 
 #signInButton {
@@ -94,4 +94,3 @@
 	height: 30px;
 	width: 30px;
 }
-

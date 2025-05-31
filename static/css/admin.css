@@ -1,0 +1,41 @@
+.admin-sidebar {
+    height: 100vh;
+    width: 200px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #222;
+    color: #fff;
+    padding-top: 40px;
+    z-index: 100;
+}
+.admin-sidebar h3 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.admin-sidebar a {
+    display: block;
+    color: #fff;
+    padding: 16px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.admin-sidebar a:hover {
+    background: #444;
+}
+.admin-main-content {
+    margin-left: 220px;
+    padding: 30px;
+}
+@media (max-width: 600px) {
+    .admin-sidebar {
+        width: 100vw;
+        height: auto;
+        position: relative;
+    }
+    .admin-main-content {
+        margin-left: 0;
+        padding: 10px;
+    }
+}

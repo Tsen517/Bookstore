@@ -17,7 +17,6 @@
 			<input id="searchButton" type="submit" value="Search">
 		</form>
 
-		<!-- Category 下拉式選單 -->
 		{% if show_category_btn %}
 		<div class="dropdown">
 			<button class="dropbtn">Category</button>
@@ -34,20 +33,21 @@
 			<a class="link" href="{{ url_for('loginForm') }}">Sign In</a>
 		</div>
 		{% else %}
+		{% if session.get('isAdmin') %}
+		<a class="link" href="{{ url_for('manageProducts') }}">
+			<button class="dropbtn">Hello, <br>{{firstName}}</button>
+		</a>
+		{% else %}
 		<div class="dropdown">
 			<button class="dropbtn">Hello, <br>{{firstName}}</button>
 			<div class="dropdown-content">
-				{% if session.get('isAdmin') %}
-				<a href="{{ url_for('admin_orders') }}">orders</a>
-				<a href="{{ url_for('manageProducts') }}">product</a>
-				{% else %}
 				<a href="{{ url_for('user_orders') }}">Your orders</a>
-				{% endif %}
 				<a href="/account/profile">Your profile</a>
 				<hr>
 				<a href="/logout">Sign Out</a>
 			</div>
 		</div>
+		{% endif %}
 		{% endif %}
 		<div id="kart">
 			<a class="link" href="/cart">
@@ -57,7 +57,6 @@
 		</div>
 	</div>
 	<div class="display">
-		<!-- 已移除原本的 Shop by Category 區塊 -->
 		<div>
 			<h2>Items</h2>
 			{% for data in itemData%}
