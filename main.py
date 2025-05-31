@@ -46,19 +46,22 @@ def addItem():
         price = float(request.form['price'])
         description = request.form['description']
         stock = int(request.form['stock'])
-        categoryId = int(request.form['category'])
-        # 支援 API 新增（image 欄位可能為空字串）
-        if 'image' in request.files and request.files['image']:
-            image = request.files['image']
-            if image and allowed_file(image.filename):
-                filename = secure_filename(image.filename)
-                image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                imagename = filename
+        category = request.form['category']
+        # 新增類別處理
+        if category == "add_new":
+            new_category = request.form['new_category'].strip()
+            if new_category:
+                # 新增到 categories 資料表
+                execute_db("INSERT INTO categories (name) VALUES (?)", (new_category,))
+                # 取得新 id
+                categoryId = query_db("SELECT categoryId FROM categories WHERE name = ?", (new_category,), one=True)[0]
             else:
-                imagename = ''
+                # 沒填新類別，預設第一個
+                categoryId = 1
         else:
-            # 來自 API 或表單未上傳圖片
-            imagename = request.form.get('image', '')
+            categoryId = int(category)
+        # 圖片處理同前
+        imagename = request.form.get('image', '')
         try:
             execute_db(
                 '''INSERT INTO products (name, price, description, image, stock, categoryId) VALUES (?, ?, ?, ?, ?, ?)''',
@@ -75,16 +78,17 @@ def remove():
     data = get_all_products()
     return render_template('remove.html', data=data)
 
-@app.route("/removeItem")
+@app.route("/removeItem", methods=["POST"])
 def removeItem():
-    productId = request.args.get('productId')
-    try:
-        execute_db('DELETE FROM products WHERE productId = ?', (productId,))
-        msg = "Deleted successsfully"
-    except Exception as e:
-        msg = "Error occured"
-    print(msg)
-    return redirect(url_for('root'))
+    if not session.get('isAdmin'):
+        return redirect(url_for('root'))
+    productId = request.form.get('productId')
+    if productId:
+        try:
+            execute_db("DELETE FROM products WHERE productId = ?", (productId,))
+        except Exception as e:
+            print("刪除失敗:", e)
+    return redirect(url_for('manageProducts'))
 
 @app.route('/displayCategory')
 def display_category():
@@ -381,7 +385,21 @@ def search_books():
         keyword = request.form['keyword']
         resp = requests.get(f"https://openlibrary.org/search.json?q={keyword}&limit=10")
         if resp.ok:
-            books = resp.json().get('docs', [])
+            docs = resp.json().get('docs', [])
+            for book in docs:
+                if not book.get('title'):
+                    continue
+                work_key = book.get('key')
+                description = get_description(work_key) if work_key else "無簡介"
+                image = ""
+                if book.get('cover_i'):
+                    image = f"https://covers.openlibrary.org/b/id/{book['cover_i']}-L.jpg"
+                books.append({
+                    "title": book['title'],
+                    "price": 300,
+                    "description": description,
+                    "image": image,
+                })
     return render_template(
         "search_books.html",
         books=books,
@@ -404,6 +422,21 @@ def parse(data):
             i += 1
         ans.append(curr)
     return ans
+
+def get_description(work_key):
+    url = f"https://openlibrary.org{work_key}.json"
+    try:
+        resp = requests.get(url, timeout=5)
+        if resp.status_code == 200:
+            data = resp.json()
+            desc = data.get("description", "")
+            if isinstance(desc, dict):
+                return desc.get("value", "")
+            elif isinstance(desc, str):
+                return desc
+    except Exception:
+        pass
+    return "無簡介"
 
 if __name__ == '__main__':
     app.run(debug=True)

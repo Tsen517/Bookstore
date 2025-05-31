@@ -22,6 +22,11 @@
 			<a class="link" href="/loginForm">Sign In</a>
 		</div>
 		{% else %}
+		{% if session.get('isAdmin') %}
+		<a class="link" href="{{ url_for('admin_orders') }}">
+			<button class="dropbtn">Hello, <br>{{firstName}}</button>
+		</a>
+		{% else %}
 		<div class="dropdown">
 			<button class="dropbtn">Hello, <br>{{firstName}}</button>
 			<div class="dropdown-content">
@@ -31,6 +36,7 @@
 				<a href="/logout">Sign Out</a>
 			</div>
 		</div>
+		{% endif %}
 		{% endif %}
 		<div id="kart">
 			<a class="link" href="/cart">
