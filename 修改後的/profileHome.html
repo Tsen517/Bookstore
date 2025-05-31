@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Profile Home</title>
+<link rel="stylesheet" href={{ url_for('static', filename='css/profileHome.css') }} />
+<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+<div id="title">
+	<a href="/">
+		<i class="bi bi-book-fill fs-1 text-primary" id="logo"></i>
+	</a>
+
+	{% if not loggedIn %}
+	<div id="signInButton">
+		<a class="link" href="/loginForm">會員登入</a>
+	</div>
+	{% else %}
+	<div class="dropdown">
+		<button class="dropbtn">會員中心<br>{{firstName}}</button>
+		<div class="dropdown-content">
+			<a href="/account/orders">會員訂單</a>
+			<a href="/account/profile">會員資料</a>
+			<hr>
+			<a href="/logout">登出</a>
+		</div>
+	</div>
+	{% endif %}
+	<div id="kart">
+		<a class="link" href="/cart">
+			<i class="bi bi-cart-fill" id="cartIcon"></i>
+			CART {{noOfItems}}
+		</a>
+	</div>
+	<form>
+		<input id="searchBox" type="text" name="searchQuery">
+		<input id="searchButton" type="submit" value="Search">
+	</form>
+	<button id="aboutwe" type="button" onclick="location.href='/aboutwe'">關於我們</button>
+</div>
+<div class="displayCategory">
+    <nav class="category-navbar">
+        <ul class="category-nav">
+            <li class="nav-title">商品種類：</li>
+            {% for row in categoryData %}
+            <li><a href="/displayCategory?categoryId={{row[0]}}">{{ row[1] }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>
+<div class="display" id="userdata">
+	<h1>會員資料</h1>
+	<hr>
+	<p>Email: <span>{{profileData[1]}}</span></p>
+	<p>電話號碼: <span>{{profileData[10]}}</span></p>
+	<p>名字: <span>{{profileData[2]}}</span></p>
+	<p>姓氏: <span>{{profileData[3]}}</span></p>
+	<p>默認地址: <span>{{profileData[4]}}</span></p>
+	<p>備用地址: <span>{{profileData[5]}}</span></p>
+	<p>城市: <span>{{profileData[7]}}</span></p>	
+	<p>國家: <span>{{profileData[9]}}</span></p>
+	<p>郵政編碼: <span>{{profileData[6]}}</span></p>
+	<p>狀態: <span>{{profileData[8]}}</span></p>
+	<a href="/account/profile/edit">Edit Profile</a><br>
+	<a href="/account/profile/changePassword">Change password</a>
+</div>
+</body>
+	<footer id="footer">
+        <p>&copy; 最終解釋權與所有權歸製作者所有</p>
+    </footer>
+</html>
