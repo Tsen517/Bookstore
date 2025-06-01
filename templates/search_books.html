@@ -9,6 +9,7 @@
 <table>
     <tr>
         <th>書名</th>
+        <th>作者</th>
         <th>價格</th>
         <th>描述</th>
         <th>圖片</th>
@@ -22,6 +23,10 @@
             <td>
                 <input type="hidden" name="name" value="{{ book.title }}">
                 {{ book.title }}
+            </td>
+            <td>
+                <input type="hidden" name="author" value="{{ book.author if book.author else '' }}">
+                {{ book.author if book.author else '無' }}
             </td>
             <td>
                 <input type="hidden" name="price" value="{{ book.price }}">

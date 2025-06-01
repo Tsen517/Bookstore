@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}會員中心{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profileHome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/topStyle.css') }}">
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    {% block content %}{% endblock %}
+</body>
+
+</html>
