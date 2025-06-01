@@ -1,0 +1,46 @@
+#remined{
+    margin-top: 20px;
+	margin-bottom: 20px; 
+    margin-left: 20px;
+	margin-right: 20px;
+    float: center;
+    width: 60%;
+    height: auto;
+}
+
+#UserLogInText{
+    margin-top: 20px;
+	margin-bottom: 20px; 
+	margin-right: 20px;
+    font-size: 42px;
+}
+
+hr{
+	margin-bottom: 20px; 
+	margin-right: 20px;
+    float: left;
+    width: 60%;
+}
+
+#login input[type="text"],
+#login input[type="password"] {
+  width: 55%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #d9d9d9;
+  color: black;
+  border: none;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+#loginButton{
+    background-color: #3AB0D4;
+    color: white;
+    font-size: 16px; 
+	padding: 10px 10px;
+    width : 60%;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}

@@ -1,0 +1,28 @@
+h1{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    left: 10vw;
+}
+
+hr {
+    width: 80%;
+}
+
+.card {
+    width: 76%;
+    height: 150px;
+    margin-bottom: 20px;
+    transform: translateX(144px); /* 整體向右平移 144px */
+}
+
+/* 卡片懸停樣式 */
+.card-hover {
+    transition: transform 0.3s ease; /* 平滑過渡效果，持續時間為 0.3 秒 */
+    transform-origin: center; /* 設置放大以中心為基準 */
+}
+
+/* 卡片懸停時的效果 */
+.card-hover:hover {   
+    transform: translateX(144px) scale(1.05); /* 放大 1.05 倍，並保持原有的平移位置 */
+}
