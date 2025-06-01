@@ -5,12 +5,13 @@
 	<title>Your Cart</title>
 	<link rel="stylesheet" href={{url_for('static', filename='css/cart.css' )}} />
 	<link rel="stylesheet" href={{url_for('static', filename='css/topStyle.css' ) }} />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
 	<div id="title">
 		<a href="/">
-			<img id="logo" src={{ url_for('static', filename='images/logo.png' ) }} />
+			<i class="bi bi-book-fill fs-1 text-primary" id="logo"></i>
 		</a>
 		<form>
 			<input id="searchBox" type="text" name="searchQuery">
@@ -19,25 +20,30 @@
 
 		{% if not loggedIn %}
 		<div id="signInButton">
-			<a class="link" href="/loginForm">Sign In</a>
+			<a class="link" href="/loginForm">會員登入</a>
 		</div>
 		{% else %}
-		<div class="dropdown">
-			<button class="dropbtn">Hello, <br>{{firstName}}</button>
-			<div class="dropdown-content">
-				<a href="{{ url_for('user_orders') }}">Your orders</a>
-				<a href="{{ url_for('profileHome') }}">Your profile</a>
-				<hr>
-				<a href="/logout">Sign Out</a>
-			</div>
+		<div id="signInButton">
+			{% if session.get('isAdmin') %}
+			<a class="admin-link" href="/admin">
+				<span class="admin-name">Hello {{ firstName }}!</span>
+				<span class="admin-center">會員中心</span>
+			</a>
+			{% else %}
+			<a class="admin-link" href="/user">
+				<span class="admin-name">Hello {{ firstName }}!</span>
+				<span class="admin-center">會員中心</span>
+			</a>
+			{% endif %}
 		</div>
 		{% endif %}
 		<div id="kart">
 			<a class="link" href="/cart">
-				<img src={{url_for('static', filename='images/shoppingCart.png' )}} id="cartIcon" />
+				<i class="bi bi-cart-fill" id="cartIcon"></i>
 				CART {{noOfItems}}
 			</a>
 		</div>
+		<button id="aboutwe" type="button" onclick="location.href='/aboutwe'">關於我們</button>
 	</div>
 	<div id="cartItems">
 		<h2>Shopping Cart</h2>

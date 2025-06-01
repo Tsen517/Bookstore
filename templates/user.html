@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員中心</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/userhome.css') }}">
+</head>
+
+<body>
+    <div class="user-container">
+        <!-- 側邊欄 -->
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a href="{{ url_for('root') }}">回首頁</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('user_orders') }}">訂單資訊</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('editProfile') }}">修改會員資料</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('changePassword') }}">帳戶密碼</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('logout') }}" class="logout">登出</a>
+                </li>
+            </ul>
+        </div>
+        <!-- 內容區 -->
+        <div class="main-content">
+            <h2>會員中心</h2>
+            <div class="profile-display">
+                <h3>會員資料</h3>
+                <ul>
+                    <li><strong>姓氏：</strong>{{ user_info.lastName or '未填寫' }}</li>
+                    <li><strong>地址：</strong>{{ user_info.address1 or '' }} {{ user_info.address2 or '' }}</li>
+                    <li><strong>郵遞區號：</strong>{{ user_info.zipcode or '未填寫' }}</li>
+                    <li><strong>城市：</strong>{{ user_info.city or '未填寫' }}</li>
+                    <li><strong>州/省：</strong>{{ user_info.state or '未填寫' }}</li>
+                    <li><strong>國家：</strong>{{ user_info.country or '未填寫' }}</li>
+                    <li><strong>電話：</strong>{{ user_info.phone or '未填寫' }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

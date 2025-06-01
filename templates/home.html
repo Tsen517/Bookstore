@@ -20,10 +20,17 @@
 		</div>
 		{% else %}
 		<div id="signInButton">
+			{% if session.get('isAdmin') %}
 			<a class="admin-link" href="/admin">
-				<span class="admin-name">{{ firstName }}</span>
+				<span class="admin-name">Hello {{ firstName }}!</span>
 				<span class="admin-center">會員中心</span>
 			</a>
+			{% else %}
+			<a class="admin-link" href="/user">
+				<span class="admin-name">Hello {{ firstName }}!</span>
+				<span class="admin-center">會員中心</span>
+			</a>
+			{% endif %}
 		</div>
 		{% endif %}
 		<div id="kart">

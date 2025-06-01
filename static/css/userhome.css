@@ -1,0 +1,46 @@
+.user-container {
+    display: flex;
+}
+
+.sidebar {
+    width: 220px;
+    background: #f5f5f5;
+    padding: 24px 0;
+    min-height: 100vh;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+.sidebar a.logout {
+    color: #d9534f;
+}
+
+.sidebar a:hover {
+    color: #007bff;
+}
+
+.main-content {
+    flex: 1;
+    padding: 40px;
+}
+
+.profile-info {
+    margin-top: 24px;
+}

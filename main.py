@@ -349,6 +349,13 @@ def user_orders():
     """, (userId,))
     return render_template("user_orders.html", orders=orders)
 
+@app.route('/user_order/<int:order_id>')
+def user_order_detail(order_id):
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    # 取得該訂單詳細資料
+    order_detail = get_order_detail(order_id)  # 你自己的查詢函式
+    return render_template('user_orders.html', orders=order_detail, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+
 @app.route("/manageProducts")
 def manageProducts():
     if not session.get('isAdmin'):
@@ -446,6 +453,51 @@ def admin_center():
         return redirect(url_for('loginForm'))
     loggedIn, firstName, noOfItems = getLoginDetails()
     return render_template("admin.html", loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+
+@app.route("/aboutwe")
+def aboutwe():
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    return render_template("aboutwe.html", loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+
+@app.route('/user')
+def user_center():
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    if not loggedIn:
+        return redirect(url_for('loginForm'))
+    if session.get('isAdmin'):
+        return redirect(url_for('admin'))  # 管理者導回管理頁
+    user_info = get_user_info(session['userId'])
+    orders = get_user_orders(session['userId'])
+    return render_template('user.html', user_info=user_info, orders=orders, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+
+
+def get_user_info(user_id):
+    user = query_db(
+        "SELECT firstName, lastName, email, address1, address2, zipcode, city, state, country, phone FROM users WHERE userId = ?",
+        (user_id,), one=True
+    )
+    if user:
+        return {
+            'firstName': user[0],
+            'lastName': user[1],
+            'email': user[2],
+            'address1': user[3],
+            'address2': user[4],
+            'zipcode': user[5],
+            'city': user[6],
+            'state': user[7],
+            'country': user[8],
+            'phone': user[9]
+        }
+    return {}
+
+def get_user_orders(user_id):
+    return query_db("""
+        SELECT Orders.orderId, products.name, Orders.productId
+        FROM Orders
+        JOIN products ON Orders.productId = products.productId
+        WHERE Orders.userId = ?
+    """, (user_id,))
 
 if __name__ == '__main__':
     app.run(debug=True)
