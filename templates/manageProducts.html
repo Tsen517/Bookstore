@@ -1,7 +1,8 @@
 {% extends "admin.html" %}
 {% block content %}
-<h2>商品管理</h2>
-<table>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/member_home.css') }}">
+<h2 class="manage-title">商品管理</h2>
+<table class="manage-products-table">
     <tr>
         <th>商品名稱</th>
         <th>價格</th>
@@ -12,17 +13,21 @@
     <tr>
         <td>{{ row[1] }}</td>
         <td>
-            <form action="{{ url_for('updateProduct') }}" method="post" style="display:inline;">
-                <input type="number" name="price" value="{{ row[2] }}" step="0.01" required>
+            <form action="{{ url_for('updateProduct') }}" method="post" class="manage-inline-form">
+                <input type="number" name="price" value="{{ row[2] }}" step="0.01" required class="input-short">
                 <input type="hidden" name="productId" value="{{ row[0] }}">
-                <input type="number" name="stock" value="{{ row[5] }}" min="0" required>
-                <input type="submit" value="更新">
+                <input type="number" name="stock" value="{{ row[5] }}" min="0" required class="input-short">
+                <input type="submit" value="更新" class="profile-btn">
             </form>
         </td>
         <td>
-            <form action="{{ url_for('removeItem') }}" method="post" style="display:inline;">
+            {{ row[5] }}
+        </td>
+        <td>
+            <form action="{{ url_for('removeItem') }}" method="post" class="manage-inline-form">
                 <input type="hidden" name="productId" value="{{ row[0] }}">
-                <input type="submit" value="刪除" onclick="return confirm('確定要刪除此書籍嗎？');">
+                <input type="submit" value="刪除" class="profile-btn profile-btn-delete"
+                    onclick="return confirm('確定要刪除此書籍嗎？');">
             </form>
         </td>
     </tr>

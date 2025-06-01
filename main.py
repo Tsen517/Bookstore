@@ -47,25 +47,22 @@ def addItem():
         description = request.form['description']
         stock = int(request.form['stock'])
         category = request.form['category']
+        author = request.form.get('author', '')  # 新增這行
         # 新增類別處理
         if category == "add_new":
             new_category = request.form['new_category'].strip()
             if new_category:
-                # 新增到 categories 資料表
                 execute_db("INSERT INTO categories (name) VALUES (?)", (new_category,))
-                # 取得新 id
                 categoryId = query_db("SELECT categoryId FROM categories WHERE name = ?", (new_category,), one=True)[0]
             else:
-                # 沒填新類別，預設第一個
                 categoryId = 1
         else:
             categoryId = int(category)
-        # 圖片處理同前
         imagename = request.form.get('image', '')
         try:
             execute_db(
-                '''INSERT INTO products (name, price, description, image, stock, categoryId) VALUES (?, ?, ?, ?, ?, ?)''',
-                (name, price, description, imagename, stock, categoryId)
+                '''INSERT INTO products (name, price, description, image, stock, categoryId, author) VALUES (?, ?, ?, ?, ?, ?, ?)''',
+                (name, price, description, imagename, stock, categoryId, author)
             )
             msg = "added successfully"
         except Exception as e:
@@ -112,7 +109,8 @@ def profileHome():
     if 'email' not in session:
         return redirect(url_for('root'))
     loggedIn, firstName, noOfItems = getLoginDetails()
-    return render_template("profileHome.html", loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+    profileData = query_db("SELECT userId, email, firstName, lastName, address1, address2, zipcode, city, state, country, phone FROM users WHERE email = ?", (session['email'],), one=True)
+    return render_template("profileHome.html", profileData=profileData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
 
 @app.route("/account/profile/edit")
 def editProfile():
@@ -199,8 +197,8 @@ def login():
 def productDescription():
     loggedIn, firstName, noOfItems = getLoginDetails()
     productId = request.args.get('productId')
-    productData = query_db('SELECT productId, name, price, description, image, stock FROM products WHERE productId = ?', (productId,), one=True)
-    return render_template("productDescription.html", data=productData, loggedIn = loggedIn, firstName = firstName, noOfItems = noOfItems)
+    productData = query_db('SELECT productId, name, price, description, image, stock, author FROM products WHERE productId = ?', (productId,), one=True)
+    return render_template("productDescription.html", data=productData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
 
 @app.route("/addToCart")
 def addToCart():
@@ -394,8 +392,12 @@ def search_books():
                 image = ""
                 if book.get('cover_i'):
                     image = f"https://covers.openlibrary.org/b/id/{book['cover_i']}-L.jpg"
+                author = ""
+                if book.get('author_name'):
+                    author = ', '.join(book['author_name'])
                 books.append({
                     "title": book['title'],
+                    "author": author,
                     "price": 300,
                     "description": description,
                     "image": image,
@@ -437,6 +439,13 @@ def get_description(work_key):
     except Exception:
         pass
     return "無簡介"
+
+@app.route("/admin")
+def admin_center():
+    if 'email' not in session:
+        return redirect(url_for('loginForm'))
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    return render_template("admin.html", loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
 
 if __name__ == '__main__':
     app.run(debug=True)

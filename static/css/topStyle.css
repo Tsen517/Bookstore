@@ -1,22 +1,104 @@
+#title {
+	background-color: rgb(250, 250, 250);
+	display: inline-block;
+	width: 100%;
+}
+
+/*改了好像*/
 #logo {
-	height: 40px;
-	width: 50px;
-	margin-left: 20px;
+	font-size: 40px;
+	margin-left: 40px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	margin-right: 20px;
 	float: left;
 }
 
-#title {
-	background-color: black;
-	display: inline-block;
-	width: 100%;
+.dropbtn {
+	background-color: rgb(0, 0, 0);
+	color: white;
+	padding: 16px;
+	font-size: 15px;
+	border: none;
+	cursor: pointer;
+}
+
+/*小改*/
+.dropdown {
+	position: relative;
+	float: left;
+	z-index: 10;
+	/*新增*/
+}
+
+/*小改*/
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 9999;
+	/*新增*/
+}
+
+.dropdown-content a {
+	font-size: 14px;
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.dropdown-content a:hover {
+	background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+.dropdown:hover .dropbtn {
+	background-color: gray;
+}
+
+#signInButton {
+	color: yellow;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	float: left;
+}
+
+#kart {
+	color: white;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	float: left;
+}
+
+/*新增*/
+#logo a,
+#kart a {
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+}
+
+#cartIcon {
+	font-size: 20px;
+	height: 30px;
+	width: 30px;
 }
 
 #searchBox {
 	height: 20px;
-	width: 800px;
+	width: 700px;
 	margin-left: 20px;
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -33,64 +115,126 @@
 	float: left;
 }
 
-.dropbtn {
-	background-color: black;
-	color: white;
-	padding: 16px;
-	font-size: 15px;
-	border: none;
-	cursor: pointer;
+/*新增*/
+#aboutwe {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+	margin-right: 20px;
+	background-color: #000000;
+	color: #fff;
 }
 
-.dropdown {
-	position: relative;
-	float: left;
+/*新增*/
+.category-navbar {
+	background-color: #333;
+	padding: 10px 20px;
+	border-radius: 5px;
 }
 
-.dropdown-content  {
-	display: none;
-	position: absolute;
-	background-color: #f9f9f9;
-	min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+/*新增*/
+.category-nav {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	flex-wrap: wrap;
 }
 
-.dropdown-content a {
-	font-size: 14px;
-	color: black;
-	padding: 12px 16px;
+/*新增*/
+.category-nav .nav-title {
+	color: #fff;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+/*新增*/
+.category-nav a {
 	text-decoration: none;
-	display: block;
+	color: #fff;
+	padding: 6px 12px;
+	border-radius: 4px;
+	transition: background-color 0.3s;
 }
 
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-.dropdown:hover .dropdown-content {
-	display: block;
+/*新增*/
+.category-nav a:hover {
+	background-color: #555;
 }
 
-.dropdown:hover .dropbtn {
-	background-color: #e0e0e0; /* 修改此行：從 gray 改為 #e0e0e0 */
+/*新增*/
+.category-navbar {
+	background-color: #3AB0D4;
+	padding: 10px 20px;
+	border-radius: 5px;
 }
 
-#signInButton {
-	color: yellow;
-	margin-top: 20px;
+/*新增*/
+footer#footer {
+	margin-top: 30px;
 	margin-bottom: 20px;
-	margin-left: 20px;
-	margin-right: 20px;
-	float: left;
-}
-#kart {
-	color: white;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	margin-left: 20px;
-	margin-right: 20px;
-	float: left;
+	text-align: center;
 }
 
-#cartIcon {
-	height: 30px;
-	width: 30px;
+/* 會員中心按鈕黑底白字，hover 金色，圓角 */
+.admin-link {
+	display: inline-block;
+	background-color: #222;
+	color: #fff !important;
+	padding: 0px 5px;
+	/* 原本22px，這裡加寬為48px */
+	border-radius: 6px;
+	text-decoration: none;
+	font-weight: bold;
+	transition: background 0.2s, color 0.2s;
+	overflow: hidden;
+	position: relative;
+	height: 44px;
+	/* 固定高度，避免動畫時跳動 */
+	min-width: 180px;
+	/* 可視需求調整寬度 */
+	text-align: center;
+}
+
+.admin-link .admin-name {
+	display: block;
+	transition: transform 0.3s, opacity 0.3s;
+	transform: translateY(0);
+	opacity: 1;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	text-align: center;
+	line-height: 44px;
+	z-index: 1;
+}
+
+.admin-link .admin-center {
+	display: block;
+	transition: transform 0.3s, opacity 0.3s;
+	transform: translateY(-100%);
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	text-align: center;
+	line-height: 44px;
+	z-index: 2;
+	color: #ffd700;
+}
+
+.admin-link:hover .admin-name {
+	transform: translateY(100%);
+	opacity: 0;
+}
+
+.admin-link:hover .admin-center {
+	transform: translateY(0);
+	opacity: 1;
 }

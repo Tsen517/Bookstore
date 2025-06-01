@@ -51,8 +51,8 @@ def insert_books(books, categoryId, need_count=10):
             continue
 
         cur.execute(
-            "INSERT INTO products (name, price, description, image, stock, categoryId) VALUES (?, ?, ?, ?, ?, ?)",
-            (name, price, description, image, stock, categoryId)
+            "INSERT INTO products (name, price, description, image, stock, categoryId, author) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (name, price, description, image, stock, categoryId, author)
         )
         inserted += 1
     conn.commit()

@@ -1,0 +1,139 @@
+.profile-title {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 2em;
+    color: #2d3e50;
+    letter-spacing: 2px;
+}
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 30px;
+}
+
+.profile-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 32px 40px;
+    min-width: 350px;
+}
+
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+}
+
+.profile-table th,
+.profile-table td {
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 1.05em;
+}
+
+.profile-table th {
+    background: #f6f8fa;
+    color: #4a4a4a;
+    width: 120px;
+    border-radius: 6px 0 0 6px;
+}
+
+.profile-table td {
+    color: #333;
+    background: #fdfdfd;
+    border-radius: 0 6px 6px 0;
+}
+
+.profile-btn-group {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+}
+
+.profile-btn {
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.profile-btn:hover {
+    background: #357ab8;
+}
+
+/* 商品管理標題 */
+.manage-title {
+    margin-bottom: 24px;
+    color: #222;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+/* 商品管理表格美化 */
+.manage-products-table {
+    width: 90%;
+    margin: 0 auto 40px auto;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.manage-products-table th,
+.manage-products-table td {
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.manage-products-table th {
+    background: #4a90e2;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.manage-products-table tr {
+    border-radius: 8px;
+    background: #f8f9fa;
+    transition: background 0.2s;
+}
+
+.manage-products-table tr:hover {
+    background: #e3f6fb;
+}
+
+.input-short {
+    width: 70px;
+    padding: 4px 6px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.manage-inline-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 刪除按鈕樣式 */
+.profile-btn-delete {
+    background: #e74c3c;
+    color: #fff;
+    transition: background 0.2s;
+}
+
+.profile-btn-delete:hover {
+    background: #c0392b;
+}
