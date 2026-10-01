@@ -38,7 +38,15 @@
 
 .main-content {
     flex: 1;
-    padding: 40px;
+    padding: 60px 80px;
+    /* 增加上下左右 padding */
+    max-width: 1200px;
+    /* 增加最大寬度 */
+    width: 100%;
+    /* 讓內容區擴展 */
+    margin: 0 auto;
+    /* 內容置中 */
+    box-sizing: border-box;
 }
 
 .profile-info {

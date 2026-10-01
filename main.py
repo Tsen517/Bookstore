@@ -90,18 +90,23 @@ def removeItem():
 @app.route('/displayCategory')
 def display_category():
     categoryId = request.args.get('categoryId')
+    if not categoryId:
+        return redirect(url_for('root'))
     itemData = get_items_by_category(categoryId)
     categoryData = get_all_categories()
     loggedIn, firstName, noOfItems = getLoginDetails()
     itemData = parse(itemData)
+    categoryName = query_db("SELECT name FROM categories WHERE categoryId = ?", (categoryId,), one=True)
+    categoryName = categoryName[0] if categoryName else ""
     return render_template(
-        'home.html',
+        'displayCategory.html',  # ← 改為分類頁模板
         itemData=itemData,
         categoryData=categoryData,
         show_category_btn=True,
         loggedIn=loggedIn,
         firstName=firstName,
-        noOfItems=noOfItems
+        noOfItems=noOfItems,
+        categoryName=categoryName  # 傳遞類別名稱
     )
 
 @app.route("/account/profile")
@@ -225,12 +230,30 @@ def cart():
     user = query_db("SELECT userId FROM users WHERE email = ?", (email,), one=True)
     if user:
         userId = user[0]
-        products = query_db("SELECT products.productId, products.name, products.price, products.image FROM products, kart WHERE products.productId = kart.productId AND kart.userId = ?", (userId,))
-        totalPrice = sum(row[2] for row in products)
+        # 查詢每個商品的數量
+        products = query_db("""
+            SELECT products.productId, products.name, products.price, products.image, COUNT(*) as quantity
+            FROM products
+            JOIN kart ON products.productId = kart.productId
+            WHERE kart.userId = ?
+            GROUP BY products.productId
+        """, (userId,))
+        # 轉成 dict，對應模板欄位
+        cartItems = [
+            {
+                "productId": row[0],
+                "productName": row[1],
+                "price": row[2],
+                "image": row[3],
+                "quantity": row[4]
+            }
+            for row in products
+        ]
+        totalPrice = sum(item["price"] * item["quantity"] for item in cartItems)
     else:
-        products = []
+        cartItems = []
         totalPrice = 0
-    return render_template("cart.html", products = products, totalPrice=totalPrice, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+    return render_template("cart.html", cartItems=cartItems, totalPrice=totalPrice, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
 
 @app.route("/removeFromCart")
 def removeFromCart():
@@ -269,19 +292,29 @@ def payment():
     loggedIn, firstName, noOfItems = getLoginDetails()
     email = session['email']
     user = query_db("SELECT userId FROM users WHERE email = ?", (email,), one=True)
+    productId = request.args.get('productId')
+    products = []
+    totalPrice = 0
+
     if user:
         userId = user[0]
-        products = query_db("SELECT products.productId, products.name, products.price, products.image FROM products, kart WHERE products.productId = kart.productId AND kart.userId = ?", (userId,))
-        totalPrice = sum(row[2] for row in products)
-        for row in products:
-            execute_db("INSERT INTO Orders (userId, productId) VALUES (?, ?)", (userId, row[0]))
-            # 新增這一行，扣減庫存
-            execute_db("UPDATE products SET stock = stock - 1 WHERE productId = ?", (row[0],))
-        execute_db("DELETE FROM kart WHERE userId = ?", (userId,))
-    else:
-        products = []
-        totalPrice = 0
-    return render_template("checkout.html", products = products, totalPrice=totalPrice, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+        if productId:
+            # BuyDirect 單本書直接結帳
+            product = query_db("SELECT productId, name, price, image FROM products WHERE productId = ?", (productId,), one=True)
+            if product:
+                products = [product]
+                totalPrice = product[2]
+                execute_db("INSERT INTO Orders (userId, productId) VALUES (?, ?)", (userId, productId))
+                execute_db("UPDATE products SET stock = stock - 1 WHERE productId = ?", (productId,))
+        else:
+            # 原本購物車結帳流程
+            products = query_db("SELECT products.productId, products.name, products.price, products.image FROM products, kart WHERE products.productId = kart.productId AND kart.userId = ?", (userId,))
+            totalPrice = sum(row[2] for row in products)
+            for row in products:
+                execute_db("INSERT INTO Orders (userId, productId) VALUES (?, ?)", (userId, row[0]))
+                execute_db("UPDATE products SET stock = stock - 1 WHERE productId = ?", (row[0],))
+            execute_db("DELETE FROM kart WHERE userId = ?", (userId,))
+    return render_template("checkout.html", products=products, totalPrice=totalPrice, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
 
 @app.route("/register", methods = ['GET', 'POST'])
 def register():
@@ -317,7 +350,7 @@ def viewProfile():
         return redirect(url_for('loginForm'))
     loggedIn, firstName, noOfItems = getLoginDetails()
     profileData = query_db("SELECT userId, email, firstName, lastName, address1, address2, zipcode, city, state, country, phone FROM users WHERE email = ?", (session['email'],), one=True)
-    return render_template("viewProfile.html", profileData=profileData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
+    return render_template("profileHome.html", profileData=profileData, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems)
 
 @app.route("/admin/orders")
 def admin_orders():
@@ -498,6 +531,27 @@ def get_user_orders(user_id):
         JOIN products ON Orders.productId = products.productId
         WHERE Orders.userId = ?
     """, (user_id,))
+
+@app.route("/admin/users")
+def admin_users():
+    if not session.get('isAdmin'):
+        return redirect(url_for('root'))
+    users = query_db("""
+        SELECT userId, firstName, lastName, email, address1, address2, zipcode, city, state, country, phone
+        FROM users
+    """)
+    return render_template("admin_users.html", users=users)
+
+@app.route("/admin/delete_user/<int:user_id>", methods=["POST"])
+def admin_delete_user(user_id):
+    if not session.get('isAdmin'):
+        return redirect(url_for('root'))
+    try:
+        execute_db("DELETE FROM users WHERE userId = ?", (user_id,))
+        msg = "刪除成功"
+    except Exception as e:
+        msg = "刪除失敗"
+    return redirect(url_for('admin_users'))
 
 if __name__ == '__main__':
     app.run(debug=True)

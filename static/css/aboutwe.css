@@ -32,6 +32,14 @@
     min-width: 200px;
 }
 
+.member-card:hover {
+    background: #e6f7fb;
+    box-shadow: 0 4px 16px rgba(58, 176, 212, 0.18);
+    transform: translateY(-4px) scale(1.03);
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
 .member-name,
 .member-id,
 .member-class {

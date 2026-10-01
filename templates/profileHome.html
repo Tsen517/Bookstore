@@ -9,50 +9,9 @@
 </head>
 
 <body>
-	<div id="title">
-		<a href="/">
-			<i class="bi bi-book-fill fs-1 text-primary" id="logo"></i>
-		</a>
-
-		{% if not loggedIn %}
-		<div id="signInButton">
-			<a class="link" href="/loginForm">會員登入</a>
-		</div>
-		{% else %}
-		<div id="signInButton">
-			{% if session.get('isAdmin') %}
-			<a class="admin-link" href="/admin">
-				<span class="admin-name">Hello {{ firstName }}!</span>
-				<span class="admin-center">會員中心</span>
-			</a>
-			{% else %}
-			<a class="admin-link" href="/user">
-				<span class="admin-name">Hello {{ firstName }}!</span>
-				<span class="admin-center">會員中心</span>
-			</a>
-			{% endif %}
-		</div>
-		{% endif %}
-		<div id="kart">
-			<a class="link" href="/cart">
-				<i class="bi bi-cart-fill" id="cartIcon"></i>
-				CART {{noOfItems}}
-			</a>
-		</div>
-		<form>
-			<input id="searchBox" type="text" name="searchQuery">
-			<input id="searchButton" type="submit" value="Search">
-		</form>
-		<button id="aboutwe" type="button" onclick="location.href='/aboutwe'">關於我們</button>
-	</div>
+	{% include 'navbar.html' %}
 	<div class="displayCategory">
 		<nav class="category-navbar">
-			<ul class="category-nav">
-				<li class="nav-title">商品種類：</li>
-				{% for row in categoryData %}
-				<li><a href="/displayCategory?categoryId={{row[0]}}">{{ row[1] }}</a></li>
-				{% endfor %}
-			</ul>
 		</nav>
 	</div>
 	<div class="display" id="userdata">
@@ -62,14 +21,10 @@
 		<p>電話號碼: <span>{{profileData[10]}}</span></p>
 		<p>名字: <span>{{profileData[2]}}</span></p>
 		<p>姓氏: <span>{{profileData[3]}}</span></p>
-		<p>默認地址: <span>{{profileData[4]}}</span></p>
-		<p>備用地址: <span>{{profileData[5]}}</span></p>
-		<p>城市: <span>{{profileData[7]}}</span></p>
-		<p>國家: <span>{{profileData[9]}}</span></p>
-		<p>郵政編碼: <span>{{profileData[6]}}</span></p>
-		<p>狀態: <span>{{profileData[8]}}</span></p>
-		<a href="/account/profile/edit">Edit Profile</a><br>
-		<a href="/account/profile/changePassword">Change password</a>
+		<div style="margin-top: 24px;">
+			<a href="{{ url_for('editProfile') }}" class="btn-edit">修改資料</a>
+			<a href="{{ url_for('changePassword') }}" class="btn-edit">修改密碼</a>
+		</div>
 	</div>
 </body>
 <footer id="footer">

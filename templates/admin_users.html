@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>使用者管理</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_users.css') }}">
+</head>
+
+<body>
+    <h2>使用者管理</h2>
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>Email</th>
+                <th>地址</th>
+                <th>電話</th>
+                <th>操作</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user[0] }}</td>
+                <td>{{ user[1] }} {{ user[2] }}</td>
+                <td>{{ user[3] }}</td>
+                <td>{{ user[4] }} {{ user[5] }} {{ user[6] }} {{ user[7] }} {{ user[8] }} {{ user[9] }}</td>
+                <td>{{ user[10] }}</td>
+                <td>
+                    <form method="post" action="{{ url_for('admin_delete_user', user_id=user[0]) }}"
+                        onsubmit="return confirm('確定要刪除嗎？');">
+                        <button type="submit">刪除</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ url_for('admin_center') }}" class="back-link">返回管理中心</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+body {
+    background: #f8f9fa;
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', Arial, sans-serif;
+}
+
+.register-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 32px 24px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+.register-container h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-weight: 700;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-weight: 500;
+    color: #222;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 4px;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #0d6efd;
+    outline: none;
+}
+
+button[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 0;
+    background: #0d6efd;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button[type="submit"]:hover {
+    background: #084298;
+}
+
+.login-link {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: #0d6efd;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}

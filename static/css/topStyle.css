@@ -268,3 +268,20 @@ footer#footer {
 	flex: 1 1 300px;
 	margin: 0 18px;
 }
+
+/* 可加在全域 CSS */
+#lang-switch {
+	margin-left: 12px;
+	padding: 4px 12px;
+	border-radius: 5px;
+	border: 1px solid #3AB0D4;
+	background: #fff;
+	color: #3AB0D4;
+	cursor: pointer;
+	font-weight: 500;
+	transition: background 0.2s;
+}
+
+#lang-switch:hover {
+	background: #e6f7fb;
+}
