@@ -9,35 +9,7 @@
 </head>
 
 <body>
-	<div id="title">
-		<a href="/">
-			<i class="bi bi-book-fill fs-1 text-primary" id="logo"></i>
-		</a>
-
-		{% if not loggedIn %}
-		<div id="signInButton">
-			<a class="link" href="/loginForm">會員登入</a>
-		</div>
-		{% else %}
-		<div id="signInButton">
-			<a class="admin-link" href="/admin">
-				<span class="admin-name">{{ firstName }}</span>
-				<span class="admin-center">會員中心</span>
-			</a>
-		</div>
-		{% endif %}
-		<div id="kart">
-			<a class="link" href="/cart">
-				<i class="bi bi-cart-fill" id="cartIcon"></i>
-				CART {{noOfItems}}
-			</a>
-		</div>
-		<form>
-			<input id="searchBox" type="text" name="searchQuery">
-			<input id="searchButton" type="submit" value="Search">
-		</form>
-		<button id="aboutwe" type="button" onclick="location.href='/aboutwe'">關於我們</button>
-	</div>
+	{% include 'navbar.html' %}
 	<div class="displayCategory">
 		<nav class="category-navbar">
 			<ul class="category-nav">

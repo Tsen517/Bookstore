@@ -1,7 +1,15 @@
 #title {
-	background-color: rgb(250, 250, 250);
-	display: inline-block;
-	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 18px 32px 18px 24px;
+	background: #f8f9fa;
+	gap: 18px;
+}
+
+#title>a {
+	margin-right: 24px;
+	flex-shrink: 0;
 }
 
 /*改了好像*/
@@ -97,14 +105,15 @@ a:visited {
 }
 
 #searchBox {
+	flex: 1 1 200px;
+	min-width: 120px;
+	max-width: 400px;
 	height: 20px;
-	width: 700px;
-	margin-left: 20px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	margin-right: 20px;
-	float: left;
-	font-size: 1.5em;
+	font-size: 1.1em;
+	margin: 0 8px 0 0;
+	/* 上右下左 */
+	float: none;
+	/* 移除 float */
 }
 
 #searchButton {
@@ -117,11 +126,24 @@ a:visited {
 
 /*新增*/
 #aboutwe {
+	min-width: 110px;
+	padding: 10px 24px;
+	background-color: #000000;
+	color: #fff;
+	border-radius: 6px;
+	border: none;
+	font-weight: bold;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s;
 	margin-top: 20px;
 	margin-bottom: 20px;
 	margin-left: 10px;
 	margin-right: 20px;
-	background-color: #000000;
+}
+
+#aboutwe:hover {
+	background: #3AB0D4;
 	color: #fff;
 }
 
@@ -237,4 +259,29 @@ footer#footer {
 .admin-link:hover .admin-center {
 	transform: translateY(0);
 	opacity: 1;
+}
+
+#title form {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex: 1 1 300px;
+	margin: 0 18px;
+}
+
+/* 可加在全域 CSS */
+#lang-switch {
+	margin-left: 12px;
+	padding: 4px 12px;
+	border-radius: 5px;
+	border: 1px solid #3AB0D4;
+	background: #fff;
+	color: #3AB0D4;
+	cursor: pointer;
+	font-weight: 500;
+	transition: background 0.2s;
+}
+
+#lang-switch:hover {
+	background: #e6f7fb;
 }

@@ -1,81 +1,78 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-<title>Edit Profile </title>
-<link rel="stylesheet" href={{ url_for('static', filename='css/editProfile.css') }} />
-<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap-grid.min.css" rel="stylesheet">
-</head>
-<body>
-<div id="title">
-	<a href="/">
-		<i class="bi bi-book-fill fs-1 text-primary" id="logo"></i>
-	</a>
 
-	{% if not loggedIn %}
-	<div id="signInButton">
-		<a class="link" href="/loginForm">會員登入</a>
-	</div>
-	{% else %}
-	<div class="dropdown">
-		<button class="dropbtn">會員中心<br>{{firstName}}</button>
-		<div class="dropdown-content">
-			<a href="/account/orders">會員訂單</a>
-			<a href="/account/profile">會員資料</a>
-			<hr>
-			<a href="/logout">登出</a>
+<head>
+	<title>Edit Profile</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/editProfile.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/topStyle.css') }}" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body>
+	{% include 'navbar.html' %}
+	<div class="container mt-5 mb-5">
+		<div class="row justify-content-center">
+			<div class="col-md-8 col-lg-6">
+				<div class="card shadow">
+					<div class="card-body">
+						<h2 class="card-title text-center mb-4">編輯資料</h2>
+						<hr>
+						<form action="/updateProfile" method="POST">
+							<div class="mb-3">
+								<label class="form-label">Email</label>
+								<input type="email" class="form-control" name="email" value="{{ profileData[1] }}"
+									readonly>
+							</div>
+							<div class="mb-3">
+								<label class="form-label">名字</label>
+								<input type="text" class="form-control" name="firstName" value="{{ profileData[2] }}">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">姓氏</label>
+								<input type="text" class="form-control" name="lastName" value="{{ profileData[3] }}">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">地址1</label>
+								<input type="text" class="form-control" name="address1" value="{{ profileData[4] }}">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">地址2</label>
+								<input type="text" class="form-control" name="address2" value="{{ profileData[5] }}">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">郵遞區號</label>
+								<input type="text" class="form-control" name="zipcode" value="{{ profileData[6] }}">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">城市</label>
+								<input type="text" class="form-control" name="city" value="{{ profileData[7] }}">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">州/省</label>
+								<input type="text" class="form-control" name="state" value="{{ profileData[8] }}">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">國家</label>
+								<input type="text" class="form-control" name="country" value="{{ profileData[9] }}">
+							</div>
+							<div class="mb-3">
+								<label class="form-label">電話號碼</label>
+								<input type="text" class="form-control" name="phone" value="{{ profileData[10] }}">
+							</div>
+							<div class="d-grid gap-2">
+								<button type="submit" class="btn btn-primary">儲存</button>
+								<a href="{{ url_for('viewProfile') }}" class="btn btn-secondary">返回</a>
+							</div>
+						</form>
+					</div>
+				</div>
+				<footer id="footer" class="text-center mt-4">
+					<p>&copy; 最終解釋權與所有權歸製作者所有</p>
+				</footer>
+			</div>
 		</div>
 	</div>
-	{% endif %}
-	<div id="kart">
-		<a class="link" href="/cart">
-			<i class="bi bi-cart-fill" id="cartIcon"></i>
-			CART {{noOfItems}}
-		</a>
-	</div>
-	<form>
-		<input id="searchBox" type="text" name="searchQuery">
-		<input id="searchButton" type="submit" value="Search">
-	</form>
-	<button id="aboutwe" type="button" onclick="location.href='/aboutwe'">關於我們</button>
-</div>
-<div class="displayCategory">
-    <nav class="category-navbar">
-        <ul class="category-nav">
-            <li class="nav-title">商品種類：</li>
-            {% for row in categoryData %}
-            <li><a href="/displayCategory?categoryId={{row[0]}}">{{ row[1] }}</a></li>
-            {% endfor %}
-        </ul>
-    </nav>
-</div>
-
-<div class="display" id="userdata">
-	<h1>編輯資料</h1>
-	<hr>
-	<form action="/updateProfile" method="POST">
-		<div class="row">
-			<div class="col-md-6">
-			<p>Email:<input type="email" name="email" value={{profileData[1]}} readonly="readonly"></p>
-			<p>名字:<input type="text" name="firstName" value={{profileData[2]}}></p>
-			<p>默認地址: <input type="text" name="address1" value={{profileData[4]}}></p>
-			<p>城市: <input type="text" name="city" value={{profileData[7]}}></p>
-			<p>郵政編碼: <input type="text" name="zipcode" value={{profileData[6]}}></p>
-			</div>
-			<div class="col-md-6">
-			<p>電話號碼: <input type="text" name="phone" value={{profileData[10]}}></p>
-			<p>姓氏: <input type="text" name="lastName" value={{profileData[3]}}></p>
-			<p>備用地址: <input type="text" name="address2" value={{profileData[5]}}></p>
-			<p>狀態: <input type="text" name="state" value={{profileData[8]}}></p>
-			<p>國家: <input type="text" name="country" value={{profileData[9]}}></p>		
-			</div>
-		</div>	
-		<input type="submit" value="Save">
-	</form>
-</div>
-<footer id="footer">
-    <p>&copy; 最終解釋權與所有權歸製作者所有</p>
-</footer>
 </body>
+
 </html>

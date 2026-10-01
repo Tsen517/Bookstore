@@ -1,33 +1,58 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
 <head>
-<title>Registration</title>
-<script type="text/javascript" src="{{ url_for('static', filename = 'js/validateForm.js') }}">
-</script>
+    <meta charset="UTF-8">
+    <title>註冊帳號</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/validateForm.js') }}"></script>
 </head>
+
 <body>
-<form action="/register" method="POST" onsubmit="return validate()">
-    <p>Email: <input type="email" name="email"></p>
+    <div class="register-container">
+        <h2>註冊帳號</h2>
+        <form action="/register" method="POST" onsubmit="return validate()">
+            <label for="email">電子郵件</label>
+            <input type="email" id="email" name="email" required>
 
-    <P>Password: <input type="password" name="password" id="password" required></p>
+            <label for="password">密碼</label>
+            <input type="password" id="password" name="password" required>
 
-    <p>Confirm Password: <input type="password" name="cpassword" id="cpassword"></p>
+            <label for="cpassword">確認密碼</label>
+            <input type="password" id="cpassword" name="cpassword" required>
 
-    <p>First Name: <input type="text" name="firstName"></p>
-    <p>Last Name: <input type="text" name="lastName"></p>
-    <p>Address Line 1: <input type="text" name="address1"></p>
-    <p>Address Line 2: <input type="text" name="address2"></p>
-    <p>Zipcode: <input type="text" name="zipcode"></p>
-    <p>City: <input type="text" name="city"></p>
-    <p>State: <input type="text" name="state"></p>
-    <p>Country: <input type="text" name="country"></p>
-    <p>Phone Number: <input type="text" name="phone"></p>
+            <label for="firstName">名字</label>
+            <input type="text" id="firstName" name="firstName" required>
 
-    <p><input type="submit" value="Register"></p>
+            <label for="lastName">姓氏</label>
+            <input type="text" id="lastName" name="lastName" required>
 
-    <a href="/loginForm">Login here</a>
-</form>
+            <label for="address1">地址1</label>
+            <input type="text" id="address1" name="address1">
+
+            <label for="address2">地址2</label>
+            <input type="text" id="address2" name="address2">
+
+            <label for="zipcode">郵遞區號</label>
+            <input type="text" id="zipcode" name="zipcode">
+
+            <label for="city">城市</label>
+            <input type="text" id="city" name="city">
+
+            <label for="state">州/省</label>
+            <input type="text" id="state" name="state">
+
+            <label for="country">國家</label>
+            <input type="text" id="country" name="country">
+
+            <label for="phone">電話</label>
+            <input type="text" id="phone" name="phone">
+
+            <button type="submit">註冊</button>
+            <a href="/loginForm" class="login-link">已有帳號？登入</a>
+        </form>
+    </div>
 </body>
+
 </html>
-
-
-

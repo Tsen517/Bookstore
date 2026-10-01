@@ -1,15 +1,34 @@
-<h2>我的訂單</h2>
-<table>
-    <tr>
-        <th>訂單編號</th>
-        <th>商品名稱</th>
-        <th>商品ID</th>
-    </tr>
-    {% for order in orders %}
-    <tr>
-        <td>{{ order[0] }}</td>
-        <td>{{ order[1] }}</td>
-        <td>{{ order[2] }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>我的訂單</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_orders.css') }}">
+</head>
+
+<body>
+    <div class="invoice-container">
+        <div class="invoice-title" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>訂單明細</span>
+            <a href="{{ url_for('user_center') }}" class="back-btn">返回</a>
+        </div>
+        <div class="invoice-scroll">
+            <div class="invoice-header">
+                <div>訂單編號</div>
+                <div>商品名稱</div>
+                <div>商品ID</div>
+            </div>
+            <div class="invoice-divider"></div>
+            {% for order in orders %}
+            <div class="invoice-row">
+                <div>{{ order[0] }}</div>
+                <div>{{ order[1] }}</div>
+                <div>{{ order[2] }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

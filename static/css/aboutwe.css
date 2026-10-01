@@ -1,0 +1,55 @@
+.aboutwe-container {
+    max-width: 600px;
+    margin: 60px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 40px 32px;
+    text-align: center;
+}
+
+.aboutwe-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color: #3AB0D4;
+    letter-spacing: 2px;
+}
+
+.aboutwe-content {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.member-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    padding: 24px 32px;
+    min-width: 200px;
+}
+
+.member-card:hover {
+    background: #e6f7fb;
+    box-shadow: 0 4px 16px rgba(58, 176, 212, 0.18);
+    transform: translateY(-4px) scale(1.03);
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.member-name,
+.member-id,
+.member-class {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #222;
+}
+
+.aboutwe-footer {
+    margin-top: 18px;
+    color: #888;
+    font-size: 0.95rem;
+}

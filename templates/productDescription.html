@@ -10,32 +10,7 @@
 </head>
 
 <body>
-	<div id="title">
-		<a href="/">
-			<i class="bi bi-book-fill fs-1" id="logo"></i>
-		</a>
-
-		{% if not loggedIn %}
-		<div id="signInButton">
-			<a class="link" href="/loginForm">會員登入</a>
-		</div>
-		{% else %}
-		<div id="signInButton">
-			<a class="link" href="/admin">會員中心</a>
-		</div>
-		{% endif %}
-		<div id="kart">
-			<a class="link" href="/cart">
-				<i class="bi bi-cart-fill" id="cartIcon"></i>
-				CART {{noOfItems}}
-			</a>
-		</div>
-		<form>
-			<input id="searchBox" type="text" name="searchQuery">
-			<input id="searchButton" type="submit" value="Search">
-		</form>
-		<button id="aboutwe" type="button" onclick="location.href='/aboutwe'">關於我們</button>
-	</div>
+	{% include 'navbar.html' %}
 	<div class="displayCategory">
 		<nav class="category-navbar">
 			<ul class="category-nav">
@@ -91,12 +66,11 @@
 					</button>
 				</div>
 				<div id="BuyDirect">
-					<form method="POST" action="/buyNow">
-						<input type="hidden" name="productId" value="{{ request.args.get('productId') }}">
-						<button type="submit">
+					<a href="/checkout?productId={{ request.args.get('productId') }}">
+						<button type="button">
 							Buy <br>directly
 						</button>
-					</form>
+					</a>
 				</div>
 			</div>
 			<div id="introducbook">

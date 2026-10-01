@@ -1,0 +1,14 @@
+.btn-edit {
+    display: inline-block;
+    margin-right: 12px;
+    padding: 8px 20px;
+    background: #3498db;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-edit:hover {
+    background: #217dbb;
+}

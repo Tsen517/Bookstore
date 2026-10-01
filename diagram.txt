@@ -1,0 +1,44 @@
+BOOKSTORE
+├─ 首頁
+│   └─ / → home.html
+├─ 登入/登出
+│   ├─ /loginForm → login.html
+│   ├─ /login (POST/GET) → home.html or login.html
+│   └─ /logout → home.html
+├─ 註冊
+│   ├─ /registerationForm → register.html
+│   └─ /register (POST) → login.html
+├─ 商品分類
+│   └─ /displayCategory?categoryId=xx → displayCategory.html
+├─ 商品詳情
+│   └─ /productDescription?productId=xx → productDescription.html
+├─ 購物車
+│   ├─ /addToCart?productId=xx
+│   ├─ /cart → cart.html
+│   ├─ /removeFromCart?productId=xx
+│   └─ /checkout[?productId=xx] → checkout.html
+├─ 個人中心
+│   ├─ /account/profile → profileHome.html
+│   ├─ /account/profile/edit → editProfile.html
+│   ├─ /account/profile/changePassword → changePassword.html
+│   ├─ /account/profile/view → profileHome.html
+│   └─ /updateProfile (POST)
+├─ 用戶訂單
+│   ├─ /orders → user_orders.html
+│   └─ /user_order/<order_id> → user_orders.html
+├─ 管理員功能
+│   ├─ /admin → admin.html
+│   ├─ /add → add.html
+│   ├─ /addItem (POST)
+│   ├─ /remove → remove.html
+│   ├─ /removeItem (POST)
+│   ├─ /manageProducts → manageProducts.html
+│   ├─ /updateProduct (POST)
+│   ├─ /admin/orders → admin_orders.html
+│   ├─ /admin/users → admin_users.html
+│   ├─ /admin/delete_user/<user_id> (POST)
+│   └─ /admin/search_books (GET/POST) → search_books.html
+├─ 關於我們
+│   └─ /aboutwe → aboutwe.html
+├─ 其他
+│   └─ /user → user.html

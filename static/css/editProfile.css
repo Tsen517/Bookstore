@@ -1,0 +1,21 @@
+body {
+    background: #f8f9fa;
+}
+
+.card {
+    border-radius: 16px;
+}
+
+.card-title {
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.btn-primary {
+    background: #3498db;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #217dbb;
+}
